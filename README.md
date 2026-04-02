@@ -4,10 +4,10 @@ Do you also find it annoying to enable `hlsearch` when you start searching, and 
 
 In simple terms:
 
-- you start a search with `/` or `?` -> you want `hlsearch`
-- you step through search results with `n`, `N`, `*`, `#`, `g*`, `g#` -> you still want `hlsearch`
-- you press any other key -> you're done searching and don't want `hlsearch`
-- you explicitly enable `hlsearch` -> this plugin does not fight that decision and leaves it enabled until you disable it
+- you start a search with `/` or `?` → you want `hlsearch`
+- you step through search results with `n`, `N`, `*`, `#`, `g*`, `g#` → you still want `hlsearch`
+- you press any other key → you're done searching and don't want `hlsearch`
+- you explicitly enable `hlsearch` → this plugin does not fight that decision and leaves it enabled until you disable it
 
 Why another plugin, when similar plugins already exist? See [Comparison](#comparison).
 
