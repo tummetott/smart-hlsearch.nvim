@@ -132,9 +132,9 @@ require('smart-hlsearch').deactivate()
 
 - [`asiryk/auto-hlsearch.nvim`](https://github.com/asiryk/auto-hlsearch.nvim)
 
-This plugin very similarly to this plugin. I mostly did not like that it defines keymaps for you. That does not play well with custom mappings or lazy loading. It also treats `hlsearch` as plugin-owned state instead of preserving the user's original setting.
+This plugin behaves very similarly. I mostly didn’t like that it defines keymaps for you, which don’t play well with custom mappings or lazy loading. It also treats the `hlsearch` setting as plugin-owned state instead of preserving the user’s original configuration.
 
-It also does not support `g*` and `g#` and `<CR>` handling is also not quite right.
+It also doesn’t support `g*` and `g#`, and its `<CR>` handling isn’t quite right.
 
 - [`nvimdev/hlsearch.nvim`](https://github.com/nvimdev/hlsearch.nvim)
 
