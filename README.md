@@ -1,0 +1,1 @@
+# smart-hlsearch.nvim
