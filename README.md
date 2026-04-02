@@ -130,19 +130,17 @@ require('smart-hlsearch').deactivate()
 
 ## Comparison
 
+- [`asiryk/auto-hlsearch.nvim`](https://github.com/asiryk/auto-hlsearch.nvim)
+
+This plugin very similarly to this plugin. I mostly did not like that it defines keymaps for you. That does not play well with custom mappings or lazy loading. It also treats `hlsearch` as plugin-owned state instead of preserving the user's original setting.
+
+It also does not support `g*` and `g#` and `<CR>` handling is also not quite right.
+
 - [`nvimdev/hlsearch.nvim`](https://github.com/nvimdev/hlsearch.nvim)
 
 It checks whether the current search pattern matches at the current cursor position. It does not distinguish between actively being in a search flow and merely being on text that matches the current search pattern.
 
 That behavior always confused me a bit, because it can make `hlsearch` reappear in situations where I do not think of myself as actively searching anymore.
-
-- [`asiryk/auto-hlsearch.nvim`](https://github.com/asiryk/auto-hlsearch.nvim)
-
-This plugin behaves very similarly. I mostly did not like that it defines keymaps for you. That does not play well with custom mappings or lazy loading.
-
-It also does not support `g*` and `g#`.
-
-`<CR>` handling is also not quite right.
 
 - [`lwflwf1/vim-smart-hlsearch`](https://github.com/lwflwf1/vim-smart-hlsearch)
 
