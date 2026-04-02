@@ -11,7 +11,7 @@ In simple terms:
 
 Why another plugin, when similar plugins already exist? See [Comparison](#comparison).
 
-## Features
+## ✨ Features
 
 - Automatically enables `hlsearch` when starting a search and clears it again when the search flow ends.
 - Keeps highlight active while continuing search navigation with `n`, `N`, `*`, `#`, `g*`, and `g#`.
@@ -20,7 +20,7 @@ Why another plugin, when similar plugins already exist? See [Comparison](#compar
 - Optionally hides `hlsearch` in Visual mode for better readability and restores it afterward.
 - Lets you choose whether search highlight stays active after confirming a `/` or `?` search.
 
-## API
+## 🚀 API
 
 ```lua
 require('smart-hlsearch').setup(opts)
@@ -43,11 +43,11 @@ require('smart-hlsearch').deactivate()
 }
 ```
 
-## Requirements
+## ⚡️ Requirements
 
 Neovim `0.8.0` or newer
 
-## Installation with `lazy.nvim`
+## 📦 Installation with `lazy.nvim`
 
 ```lua
 {
@@ -132,7 +132,7 @@ Neovim `0.8.0` or newer
 }
 ```
 
-## Comparison
+## 👯 Comparison
 
 - [`asiryk/auto-hlsearch.nvim`](https://github.com/asiryk/auto-hlsearch.nvim)
 
@@ -152,7 +152,7 @@ This plugin also defines mappings for you. It does not respect your existing `hl
 
 Vimscript... good old times. But not anymore.
 
-## Caveats
+## 🐛 Caveats
 
 Guess what? Neovim `:mkview` writes the current `hlsearch` state into the view file. That is awkward behavior that is not documented anywhere, and you cannot disable it because `viewoptions` do not cover it. Why is this awkward? Because there are basically two kinds of users:
 
@@ -162,3 +162,5 @@ Guess what? Neovim `:mkview` writes the current `hlsearch` state into the view f
 For neither of these cases does it make sense to persist this setting in the `viewdir`.
 
 Why do I mention this here? This plugin controls the `hlsearch` setting for you. If you use `:mkview` and `:loadview` in autocmds like I do, it can happen that `vim.opt.hlsearch = true` gets persisted into your view file. This is an edge case that took me a while to debug. A simple workaround is to set `vim.opt.hlsearch = false` right before `:mkview`, and you won't be bothered anymore.
+
+❤️ Tummetott
