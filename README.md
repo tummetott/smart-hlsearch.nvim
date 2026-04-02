@@ -43,6 +43,10 @@ require('smart-hlsearch').deactivate()
 }
 ```
 
+## Requirements
+
+Neovim `0.8.0` or newer
+
 ## Installation with `lazy.nvim`
 
 ```lua
