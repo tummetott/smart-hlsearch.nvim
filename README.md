@@ -157,4 +157,4 @@ Guess what? Neovim `:mkview` writes the current `hlsearch` state into the view f
 
 For neither of these cases does it make sense to persist this setting in the `viewdir`.
 
-Why do I mention this here? This plugin controls the `hlsearch` setting for you. If you use `:mkview` and `:loadview` in autocmds like I do, it can happen that `vim.opt.hlsearch = true` gets persisted into your view file. This is an edge case that took me a while to debug. A simple workaround is to set `vim.opt.hlsearch = false` right before `:mkview`, and you won't be bothered by it.
+Why do I mention this here? This plugin controls the `hlsearch` setting for you. If you use `:mkview` and `:loadview` in autocmds like I do, it can happen that `vim.opt.hlsearch = true` gets persisted into your view file. This is an edge case that took me a while to debug. A simple workaround is to set `vim.opt.hlsearch = false` right before `:mkview`, and you won't be bothered anymore.
