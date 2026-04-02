@@ -152,8 +152,8 @@ Vimscript... good old times. But not anymore.
 
 Guess what? Neovim `:mkview` writes the current `hlsearch` state into the view file. That is awkward behavior that is not documented anywhere, and you cannot disable it because `viewoptions` do not cover it. Why is this awkward? Because there are basically two kinds of users:
 
-- You disable `hlsearch` while you're not searching -> you probably don't want active `hlsearch` on startup
-- You always have `hlsearch` enabled -> you put `vim.opt.hlsearch = true` in your config
+- You disable `hlsearch` while you're not searching → you probably don't want active `hlsearch` on startup
+- You always have `hlsearch` enabled → you put `vim.opt.hlsearch = true` in your config
 
 For neither of these cases does it make sense to persist this setting in the `viewdir`.
 
