@@ -1,0 +1,115 @@
+*smart-hlsearch.nvim*  Automatic, context-aware hlsearch management.
+
+
+Author: Tummetott
+
+==============================================================================
+CONTENTS                                              *smart-hlsearch-contents*
+
+1. DESCRIPTION.................................|smart-hlsearch-description|
+2. REQUIREMENTS...............................|smart-hlsearch-requirements|
+3. API...........................................|smart-hlsearch-api|
+4. CONFIGURATION.............................|smart-hlsearch-configuration|
+5. CAVEATS.....................................|smart-hlsearch-caveats|
+
+==============================================================================
+1. DESCRIPTION                                       *smart-hlsearch-description*
+
+|smart-hlsearch.nvim| automatically manages the `hlsearch` option so you
+never have to toggle it manually.
+
+- Start a search with `/` or `?` → `hlsearch` is enabled.
+- Navigate results with `n`, `N`, `*`, `#`, `g*`, `g#` → `hlsearch` stays on.
+- Press any other key → the search flow ends and `hlsearch` is cleared.
+- Explicitly enable `hlsearch` yourself → the plugin leaves it alone.
+
+The plugin preserves your original `hlsearch` setting and restores it when
+each search flow ends. It intentionally does not define any keymaps so it
+stays compatible with custom bindings and lazy loading.
+
+==============================================================================
+2. REQUIREMENTS                                     *smart-hlsearch-requirements*
+
+Neovim 0.8.0 or higher.
+
+==============================================================================
+3. API                                                    *smart-hlsearch-api*
+
+setup({opts})                                      *smart-hlsearch.setup()*
+
+        Initialize the plugin with optional configuration overrides. Can only
+        be called once; subsequent calls are ignored. See
+        |smart-hlsearch-configuration|.
+
+activate()                                      *smart-hlsearch.activate()*
+
+        Start a search flow and enable `hlsearch`. If a search flow is already
+        active, does nothing. Stores the current `hlsearch` value so it can be
+        restored when the flow ends.
+
+        Call this from your search key mappings:
+>lua
+            {
+                'n',
+                function()
+                    require('smart-hlsearch').activate()
+                    return 'n'
+                end,
+                mode = 'n',
+                expr = true,
+            }
+<
+deactivate()                                  *smart-hlsearch.deactivate()*
+
+        End the current search flow and restore the `hlsearch` value from
+        before |smart-hlsearch.activate()| was called. If no search flow is
+        active, does nothing.
+
+==============================================================================
+4. CONFIGURATION                                *smart-hlsearch-configuration*
+
+                                                        *smart-hlsearch.opts*
+Options are passed to |smart-hlsearch.setup()|.
+>lua
+    require('smart-hlsearch').setup({
+        hide_in_visual_mode = true,
+        clear_after_cmdline_search = false,
+    })
+<
+
+hide_in_visual_mode                  *smart-hlsearch.opts.hide_in_visual_mode*
+        Type: `boolean` ~
+        Default: `true` ~
+
+        Disable `hlsearch` when entering Visual mode and restore the previous
+        value when leaving it. This improves readability since Visual
+        selections and search highlights often use similar colors.
+
+clear_after_cmdline_search  *smart-hlsearch.opts.clear_after_cmdline_search*
+        Type: `boolean` ~
+        Default: `false` ~
+
+        When `false`, `hlsearch` stays active after confirming a `/` or `?`
+        search with `<CR>`. When `true`, `hlsearch` is cleared immediately
+        after confirmation.
+
+        Useful if your workflow uses `<C-g>` and `<C-t>` to navigate matches
+        while staying in the search cmdline — in that case, pressing `<CR>`
+        means the search is done and highlighting should be cleared.
+
+        Aborted searches (`<Esc>`) always restore the previous state regardless
+        of this setting.
+
+==============================================================================
+5. CAVEATS                                             *smart-hlsearch-caveats*
+
+Neovim's `:mkview` persists the current `hlsearch` state into the view file.
+This is undocumented behavior that cannot be disabled via `viewoptions`.
+
+Because this plugin controls `hlsearch` for you, it can happen that
+`hlsearch = true` gets saved into a view file during an active search flow. A
+simple workaround is to set `vim.opt.hlsearch = false` immediately before
+calling `:mkview`.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
