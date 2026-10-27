@@ -17,11 +17,15 @@ local default_opts = {
     clear_after_cmdline_search = false,
 }
 
+-- Typed keys that continue search flow. A mapped 'g*' or 'g#' reports both
+-- keys as one typed sequence.
 local search_keys = {
     ['n'] = true,
     ['N'] = true,
     ['*'] = true,
     ['#'] = true,
+    ['g*'] = true,
+    ['g#'] = true,
 }
 
 local group = vim.api.nvim_create_augroup('smart-hlsearch', { clear = true })
@@ -31,15 +35,13 @@ local did_setup = false
 -- Runtime state:
 --   active              true while the plugin currently owns visible search
 --                       highlighting
---   current_key         most recent Normal-mode key seen by vim.on_key()
---   last_key            previous Normal-mode key seen by vim.on_key()
+--   current_key         most recent Normal-mode key typed by the user
 --   restore_hlsearch    original 'hlsearch' value from before the current
 --                       temporary override chain started; restored when that chain
 --                       ends
 local state = {
     active = false,
     current_key = nil,
-    last_key = nil,
     restore_hlsearch = nil,
 }
 
@@ -79,17 +81,19 @@ function M.setup(user_opts)
     did_setup = true
     opts = vim.tbl_deep_extend('force', vim.deepcopy(default_opts), user_opts or {})
 
-    -- vim.on_key() records recent Normal-mode keys. Autocmds use those
-    -- recorded keys to decide whether the current search flow continues or
-    -- ends. Normal mode in a terminal buffer reports as 'nt'.
-    vim.on_key(function(char)
+    -- vim.on_key() records the most recent Normal-mode key typed by the user.
+    -- Autocmds use it to decide whether the current search flow continues or
+    -- ends. Normal mode in a terminal buffer reports as 'nt'. Keys without a
+    -- typed origin come from mapping expansions, :normal, or feedkeys(), such
+    -- as the cursor motions of a smooth scroll animation, and leave the
+    -- recorded key unchanged.
+    vim.on_key(function(_, typed)
         local mode = vim.api.nvim_get_mode().mode
-        if mode ~= 'n' and mode ~= 'nt' then
+        if (mode ~= 'n' and mode ~= 'nt') or typed == '' then
             return
         end
 
-        state.last_key = state.current_key
-        state.current_key = vim.fn.keytrans(char)
+        state.current_key = vim.fn.keytrans(typed)
     end)
 
     vim.api.nvim_create_autocmd('CmdlineEnter', {
@@ -125,13 +129,7 @@ function M.setup(user_opts)
             -- Search continuation commands keep the current search highlight
             -- active. Any other cursor movement is treated as leaving search
             -- flow.
-            local current_key = state.current_key
-
-            if search_keys[current_key] then
-                return
-            end
-
-            if state.last_key == 'g' and (current_key == '*' or current_key == '#') then
+            if search_keys[state.current_key] then
                 return
             end
 
