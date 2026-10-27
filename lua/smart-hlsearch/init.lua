@@ -81,9 +81,10 @@ function M.setup(user_opts)
 
     -- vim.on_key() records recent Normal-mode keys. Autocmds use those
     -- recorded keys to decide whether the current search flow continues or
-    -- ends.
+    -- ends. Normal mode in a terminal buffer reports as 'nt'.
     vim.on_key(function(char)
-        if vim.api.nvim_get_mode().mode ~= 'n' then
+        local mode = vim.api.nvim_get_mode().mode
+        if mode ~= 'n' and mode ~= 'nt' then
             return
         end
 
@@ -138,10 +139,10 @@ function M.setup(user_opts)
         end,
     })
 
-    vim.api.nvim_create_autocmd('InsertEnter', {
+    vim.api.nvim_create_autocmd({ 'InsertEnter', 'TermEnter' }, {
         group = group,
         callback = function()
-            -- Entering Insert mode always ends search flow.
+            -- Entering Insert or Terminal mode always ends search flow.
             M.deactivate()
         end,
     })
